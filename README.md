@@ -9,7 +9,8 @@ These were used to create application demo in various frameworks
 1. C#.Net/MVC/DotNet Core 2.x
 2. Spring Framework / JAX-RS 
 3. Spring Boot 
-4. Python Stack - Django/Flask 
-5. GoLang 
-6. RUST (2018-19) starting now 
-7. Julia Lang (2018-19) starting now 
+4. Python Stack - Django/Flask
+5. MEAN STACK (Angular) /MERN Stack (ReactJS) / MEKN(knockoutjs)
+6. GoLang 
+7. RUST (2018-19) starting now 
+8. Julia Lang (2018-19) starting now 
