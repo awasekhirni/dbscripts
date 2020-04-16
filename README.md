@@ -14,3 +14,10 @@ These were used to create application demo in various frameworks
 6. GoLang 
 7. RUST (2018-19) starting now 
 8. Julia Lang (2018-19) starting now 
+
+I use the following tool sets to quickly create database 
+1.dezign for database 
+2. mockaroo.com / jsongenerator 
+3. mysql/postgresql/mongodb/couchdb/rethinkdb/sqlserver 
+
+
