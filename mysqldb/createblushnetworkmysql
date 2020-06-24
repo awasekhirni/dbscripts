@@ -1,0 +1,1955 @@
+# ---------------------------------------------------------------------- #
+# Script generated with: DeZign for Databases V8.1.2                     #
+# Target DBMS:           MySQL 5                                         #
+# Project file:          blushsocialnetworkmysql.dez                     #
+# Project name:                                                          #
+# Author:                                                                #
+# Script type:           Database creation script                        #
+# Created on:            2020-06-17 17:48                                #
+# ---------------------------------------------------------------------- #
+
+
+# ---------------------------------------------------------------------- #
+# Add tables                                                             #
+# ---------------------------------------------------------------------- #
+
+# ---------------------------------------------------------------------- #
+# Add table "ads_system"                                                 #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `ads_system` (
+    `ads_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `place` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `code` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`ads_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "announcements"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `announcements` (
+    `announcement_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `code` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `start_date` DATETIME NOT NULL,
+    `end_date` DATETIME NOT NULL,
+    PRIMARY KEY (`announcement_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "blacklist"                                                  #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `blacklist` (
+    `node_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `node_type` ENUM('ip','email','username') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `node_value` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `created_time` DATETIME NOT NULL,
+    PRIMARY KEY (`node_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "blogs_categories"                                           #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `blogs_categories` (
+    `category_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`category_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "custom_fields"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `custom_fields` (
+    `field_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `field_for` ENUM('user','page','group','event') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT user,
+    `type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `select_options` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `label` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `place` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `length` INTEGER(10) NOT NULL DEFAULT 32,
+    `field_order` INTEGER(10) NOT NULL DEFAULT 1,
+    `mandatory` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `in_registration` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `in_profile` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    PRIMARY KEY (`field_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "developers_apps_categories"                                 #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `developers_apps_categories` (
+    `category_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`category_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "emojis"                                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `emojis` (
+    `emoji_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `pattern` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `class` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`emoji_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "events"                                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `events` (
+    `event_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `event_privacy` ENUM('secret','closed','public') COLLATE utf8mb4_0900_ai_ci DEFAULT 'public',
+    `event_admin` INTEGER(10) UNSIGNED NOT NULL,
+    `event_category` INTEGER(10) UNSIGNED NOT NULL,
+    `event_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `event_location` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `event_description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `event_start_date` DATETIME NOT NULL,
+    `event_end_date` DATETIME NOT NULL,
+    `event_publish_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `event_publish_approval_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `event_cover` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `event_cover_id` INTEGER(10) UNSIGNED,
+    `event_cover_position` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `event_album_covers` INTEGER(10),
+    `event_album_timeline` INTEGER(10),
+    `event_pinned_post` INTEGER(10),
+    `event_invited` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `event_interested` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `event_going` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `event_date` DATETIME NOT NULL,
+    PRIMARY KEY (`event_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "events_categories"                                          #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `events_categories` (
+    `category_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`category_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "forums"                                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `forums` (
+    `forum_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `forum_section` INTEGER(10) UNSIGNED NOT NULL,
+    `forum_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `forum_description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `forum_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    `forum_threads` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `forum_replies` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`forum_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "friends"                                                    #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `friends` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_one_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_two_id` INTEGER(10) UNSIGNED NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_one_id_user_two_id` ON `friends` (`user_one_id`,`user_two_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "games"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `games` (
+    `game_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `thumbnail` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`game_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "gifts"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `gifts` (
+    `gift_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`gift_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "groups"                                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `groups` (
+    `group_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `group_privacy` ENUM('secret','closed','public') COLLATE utf8mb4_0900_ai_ci DEFAULT 'public',
+    `group_admin` INTEGER(10) UNSIGNED NOT NULL,
+    `group_category` INTEGER(10) UNSIGNED NOT NULL,
+    `group_name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `group_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `group_description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `group_publish_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `group_publish_approval_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `group_picture` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `group_picture_id` INTEGER(10) UNSIGNED,
+    `group_cover` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `group_cover_id` INTEGER(10) UNSIGNED,
+    `group_cover_position` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `group_album_pictures` INTEGER(10),
+    `group_album_covers` INTEGER(10),
+    `group_album_timeline` INTEGER(10),
+    `group_pinned_post` INTEGER(10),
+    `group_members` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `group_date` DATETIME NOT NULL
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "groups_categories"                                          #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `groups_categories` (
+    `category_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`category_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "hashtags"                                                   #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `hashtags` (
+    `hashtag_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `hashtag` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`hashtag_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "invitation_codes"                                           #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `invitation_codes` (
+    `code_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `code` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `valid` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `date` DATETIME NOT NULL,
+    PRIMARY KEY (`code_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "market_categories"                                          #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `market_categories` (
+    `category_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`category_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "movies"                                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `movies` (
+    `movie_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `source` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_type` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `imdb_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `stars` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `release_year` INTEGER(10),
+    `duration` INTEGER(10),
+    `genres` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `poster` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `views` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`movie_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "movies_genres"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `movies_genres` (
+    `genre_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `genre_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `genre_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    `genre_description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`genre_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "packages"                                                   #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `packages` (
+    `package_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `price` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `period_num` INTEGER(10) UNSIGNED NOT NULL,
+    `period` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `color` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `icon` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `verification_badge_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `boost_posts_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `boost_posts` INTEGER(10) UNSIGNED NOT NULL,
+    `boost_pages_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `boost_pages` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`package_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "packages_payments"                                          #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `packages_payments` (
+    `payment_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `payment_date` DATETIME NOT NULL,
+    `package_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `package_price` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`payment_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "pages"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `pages` (
+    `page_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `page_admin` INTEGER(10) UNSIGNED NOT NULL,
+    `page_category` INTEGER(10) UNSIGNED NOT NULL,
+    `page_name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `page_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `page_picture` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_picture_id` INTEGER(10) UNSIGNED,
+    `page_cover` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_cover_id` INTEGER(10) UNSIGNED,
+    `page_cover_position` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_album_pictures` INTEGER(10) UNSIGNED,
+    `page_album_covers` INTEGER(10) UNSIGNED,
+    `page_album_timeline` INTEGER(10) UNSIGNED,
+    `page_pinned_post` INTEGER(10) UNSIGNED,
+    `page_verified` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `page_boosted` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `page_boosted_by` INTEGER(10) UNSIGNED,
+    `page_company` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_phone` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_website` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_location` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `page_action_text` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_action_color` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_action_url` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_social_facebook` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_social_twitter` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_social_youtube` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_social_instagram` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_social_linkedin` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_social_vkontakte` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `page_likes` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `page_date` DATETIME NOT NULL,
+    PRIMARY KEY (`page_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `username` ON `pages` (`page_name`);
+
+# ---------------------------------------------------------------------- #
+# Add table "pages_categories"                                           #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `pages_categories` (
+    `category_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `category_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (`category_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_colored_patterns"                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_colored_patterns` (
+    `pattern_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `type` ENUM('color','image') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'color',
+    `background_image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `background_color_1` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `background_color_2` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `text_color` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    PRIMARY KEY (`pattern_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "static_pages"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `static_pages` (
+    `page_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `page_url` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `page_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `page_text` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `page_in_footer` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `page_order` INTEGER(10) NOT NULL DEFAULT 1,
+    PRIMARY KEY (`page_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `page_url` ON `static_pages` (`page_url`);
+
+# ---------------------------------------------------------------------- #
+# Add table "stickers"                                                   #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `stickers` (
+    `sticker_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`sticker_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "system_countries"                                           #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `system_countries` (
+    `country_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `country_code` VARCHAR(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `country_name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`country_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "system_currencies"                                          #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `system_currencies` (
+    `currency_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `code` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `symbol` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `default` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`currency_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "system_languages"                                           #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `system_languages` (
+    `language_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `code` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `flag` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `dir` ENUM('LTR','RTL') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `default` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`language_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `code` ON `system_languages` (`code`);
+
+# ---------------------------------------------------------------------- #
+# Add table "system_options"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `system_options` (
+    `option_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `option_name` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `option_value` VARCHAR(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    PRIMARY KEY (`option_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `option_name` ON `system_options` (`option_name`);
+
+# ---------------------------------------------------------------------- #
+# Add table "system_themes"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `system_themes` (
+    `theme_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `default` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`theme_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `name` ON `system_themes` (`name`);
+
+# ---------------------------------------------------------------------- #
+# Add table "verification_requests"                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `verification_requests` (
+    `request_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `node_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `photo` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `passport` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `time` DATETIME NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    PRIMARY KEY (`request_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `node_id_node_type` ON `verification_requests` (`node_id`,`node_type`);
+
+# ---------------------------------------------------------------------- #
+# Add table "widgets"                                                    #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `widgets` (
+    `widget_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `place` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `place_order` INTEGER(10) UNSIGNED NOT NULL DEFAULT 1,
+    `code` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`widget_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "custom_fields_values"                                       #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `custom_fields_values` (
+    `value_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `value` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `field_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_type` ENUM('user','page','group','event') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`value_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `field_id_node_id_node_type` ON `custom_fields_values` (`field_id`,`node_id`,`node_type`);
+
+# ---------------------------------------------------------------------- #
+# Add table "ads_campaigns"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `ads_campaigns` (
+    `campaign_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `campaign_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `campaign_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `campaign_start_date` DATETIME NOT NULL,
+    `campaign_end_date` DATETIME NOT NULL,
+    `campaign_budget` DOUBLE NOT NULL,
+    `campaign_spend` DOUBLE NOT NULL DEFAULT 0,
+    `campaign_bidding` ENUM('click','view') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `audience_countries` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `audience_gender` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `audience_relationship` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `ads_title` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `ads_description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `ads_type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `ads_url` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `ads_page` INTEGER(10) UNSIGNED,
+    `ads_group` INTEGER(10) UNSIGNED,
+    `ads_event` INTEGER(10) UNSIGNED,
+    `ads_placement` ENUM('newsfeed','sidebar') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `ads_image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `campaign_created_date` DATETIME NOT NULL,
+    `campaign_is_active` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `campaign_views` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `campaign_clicks` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`campaign_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "ads_users_wallet_transactions"                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `ads_users_wallet_transactions` (
+    `transaction_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `node_id` INTEGER(10) UNSIGNED,
+    `amount` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `type` ENUM('in','out') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `date` DATETIME NOT NULL,
+    PRIMARY KEY (`transaction_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "affiliates_payments"                                        #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `affiliates_payments` (
+    `payment_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `amount` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `method` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `method_value` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    PRIMARY KEY (`payment_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "announcements_users"                                        #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `announcements_users` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `announcement_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `announcement_id_user_id` ON `announcements_users` (`announcement_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "bank_transfers"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `bank_transfers` (
+    `transfer_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `handle` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `package_id` INTEGER(10) UNSIGNED,
+    `price` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `bank_receipt` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    `status` TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`transfer_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "coinpayments_transactions"                                  #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `coinpayments_transactions` (
+    `transaction_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `transaction_txn_id` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `amount` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `product` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `created_at` DATETIME NOT NULL,
+    `last_update` DATETIME NOT NULL,
+    `status` TINYINT(1) UNSIGNED NOT NULL,
+    `status_message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`transaction_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "conversations"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `conversations` (
+    `conversation_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `last_message_id` INTEGER(10) UNSIGNED NOT NULL,
+    `color` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    PRIMARY KEY (`conversation_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "conversations_calls_audio"                                  #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `conversations_calls_audio` (
+    `call_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `from_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `from_user_token` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `to_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `to_user_token` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `room` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `answered` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `declined` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `created_time` DATETIME NOT NULL,
+    `updated_time` DATETIME NOT NULL,
+    PRIMARY KEY (`call_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "conversations_calls_video"                                  #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `conversations_calls_video` (
+    `call_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `from_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `from_user_token` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `to_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `to_user_token` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `room` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `answered` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `declined` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `created_time` DATETIME NOT NULL,
+    `updated_time` DATETIME NOT NULL,
+    PRIMARY KEY (`call_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "conversations_messages"                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `conversations_messages` (
+    `message_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `conversation_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `message` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`message_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "conversations_users"                                        #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `conversations_users` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `conversation_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `seen` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `typing` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `deleted` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `conversation_id_user_id` ON `conversations_users` (`conversation_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "developers_apps"                                            #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `developers_apps` (
+    `app_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `app_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `app_category_id` INTEGER(10) UNSIGNED NOT NULL,
+    `app_auth_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_auth_secret` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_domain` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_redirect_url` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_description` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_icon` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `app_date` DATETIME NOT NULL,
+    PRIMARY KEY (`app_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `app_auth_id` ON `developers_apps` (`app_auth_id`);
+
+CREATE UNIQUE INDEX `app_auth_secret` ON `developers_apps` (`app_auth_secret`);
+
+# ---------------------------------------------------------------------- #
+# Add table "developers_apps_users"                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `developers_apps_users` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `app_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `auth_key` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `access_token` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `access_token_date` DATETIME,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `page_id_user_id` ON `developers_apps_users` (`app_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "events_members"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `events_members` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `event_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `is_invited` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+    `is_interested` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+    `is_going` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `group_id_user_id` ON `events_members` (`event_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "followings"                                                 #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `followings` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `following_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_id_following_id` ON `followings` (`user_id`,`following_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "forums_replies"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `forums_replies` (
+    `reply_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `thread_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `text` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`reply_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "forums_threads"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `forums_threads` (
+    `thread_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `forum_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `text` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `replies` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `views` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `time` DATETIME NOT NULL,
+    `last_reply` DATETIME,
+    PRIMARY KEY (`thread_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "games_players"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `games_players` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `game_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `last_played_time` DATETIME,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `game_id_user_id` ON `games_players` (`game_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "groups_admins"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `groups_admins` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `group_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `group_id_user_id` ON `groups_admins` (`group_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "groups_members"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `groups_members` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `group_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `approved` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `group_id_user_id` ON `groups_members` (`group_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "hashtags_posts"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `hashtags_posts` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `hashtag_id` INTEGER(10) UNSIGNED NOT NULL,
+    `created_at` DATETIME,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `post_id_hashtag_id` ON `hashtags_posts` (`post_id`,`hashtag_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "notifications"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `notifications` (
+    `notification_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `to_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `from_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `action` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `node_type` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `node_url` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `notify_id` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `message` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `time` DATETIME,
+    `seen` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    PRIMARY KEY (`notification_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "pages_admins"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `pages_admins` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `page_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `page_id_user_id` ON `pages_admins` (`page_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "pages_invites"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `pages_invites` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `page_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `from_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `page_id_user_id_from_user_id` ON `pages_invites` (`page_id`,`user_id`,`from_user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "pages_likes"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `pages_likes` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `page_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `page_id_user_id` ON `pages_likes` (`page_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "points_payments"                                            #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `points_payments` (
+    `payment_id` INTEGER(10) NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `amount` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `method` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `method_value` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    `status` TINYINT(1) NOT NULL,
+    PRIMARY KEY (`payment_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts` (
+    `post_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_type` ENUM('user','page') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `in_group` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `group_id` INTEGER(10) UNSIGNED,
+    `group_approved` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `in_event` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `event_id` INTEGER(10) UNSIGNED,
+    `event_approved` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `in_wall` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `wall_id` INTEGER(10) UNSIGNED,
+    `post_type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `colored_pattern` INTEGER(10) UNSIGNED,
+    `origin_id` INTEGER(10) UNSIGNED,
+    `time` DATETIME NOT NULL,
+    `location` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `privacy` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `text` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `feeling_action` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `feeling_value` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `boosted` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `boosted_by` INTEGER(10) UNSIGNED,
+    `comments_disabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `is_hidden` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `reaction_like_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_love_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_haha_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_yay_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_wow_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_sad_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_angry_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `comments` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `shares` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`post_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_articles"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_articles` (
+    `article_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `cover` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `text` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_id` INTEGER(10) UNSIGNED NOT NULL,
+    `tags` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `views` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`article_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_audios"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_audios` (
+    `audio_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `source` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `views` INTEGER(10) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`audio_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_comments"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_comments` (
+    `comment_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `node_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_type` ENUM('post','photo','comment') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_type` ENUM('user','page') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `text` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `image` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `time` DATETIME NOT NULL,
+    `reaction_like_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_love_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_haha_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_yay_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_wow_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_sad_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_angry_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `replies` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`comment_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_comments_reactions"                                   #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_comments_reactions` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `comment_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `reaction` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'like',
+    `reaction_time` DATETIME,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `comment_id_user_id` ON `posts_comments_reactions` (`comment_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_files"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_files` (
+    `file_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `source` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`file_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_hidden"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_hidden` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `post_id_user_id` ON `posts_hidden` (`post_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_links"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_links` (
+    `link_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `source_url` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_host` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_text` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_thumbnail` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`link_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_media"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_media` (
+    `media_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) NOT NULL,
+    `source_url` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_provider` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_type` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `source_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `source_text` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `source_html` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    PRIMARY KEY (`media_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_photos"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_photos` (
+    `photo_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `album_id` INTEGER(10) UNSIGNED,
+    `source` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `blur` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `reaction_like_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_love_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_haha_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_yay_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_wow_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_sad_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `reaction_angry_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `comments` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`photo_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_photos_albums"                                        #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_photos_albums` (
+    `album_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_type` ENUM('user','page') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `in_group` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `group_id` INTEGER(10) UNSIGNED,
+    `in_event` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `event_id` INTEGER(10) UNSIGNED,
+    `title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `privacy` ENUM('me','friends','public','custom') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    PRIMARY KEY (`album_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_photos_reactions"                                     #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_photos_reactions` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `photo_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `reaction` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'like',
+    `reaction_time` DATETIME,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_id_photo_id` ON `posts_photos_reactions` (`user_id`,`photo_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_polls"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_polls` (
+    `poll_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `votes` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`poll_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_polls_options"                                        #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_polls_options` (
+    `option_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `poll_id` INTEGER(10) UNSIGNED NOT NULL,
+    `text` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`option_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_polls_options_users"                                  #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_polls_options_users` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `poll_id` INTEGER(10) UNSIGNED NOT NULL,
+    `option_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_id_poll_id` ON `posts_polls_options_users` (`user_id`,`poll_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_products"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_products` (
+    `product_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `name` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `price` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `category_id` INTEGER(10) UNSIGNED NOT NULL,
+    `status` ENUM('new','old') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'new',
+    `location` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `available` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    PRIMARY KEY (`product_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_reactions"                                            #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_reactions` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `reaction` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'like',
+    `reaction_time` DATETIME,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `post_id_user_id` ON `posts_reactions` (`post_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_saved"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_saved` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `post_id_user_id` ON `posts_saved` (`post_id`,`user_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "posts_videos"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `posts_videos` (
+    `video_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `post_id` INTEGER(10) UNSIGNED NOT NULL,
+    `source` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `thumbnail` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `views` INTEGER(10) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`video_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "reports"                                                    #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `reports` (
+    `report_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`report_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "stories"                                                    #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `stories` (
+    `story_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`story_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "stories_media"                                              #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `stories_media` (
+    `media_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `story_id` INTEGER(10) UNSIGNED NOT NULL,
+    `source` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `is_photo` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME NOT NULL,
+    PRIMARY KEY (`media_id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "users"                                                      #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users` (
+    `user_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_group` TINYINT(10) UNSIGNED NOT NULL DEFAULT 3,
+    `user_name` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_email` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_email_verified` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_email_verification_code` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_phone` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_phone_verified` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_phone_verification_code` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_password` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_two_factor_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_two_factor_type` ENUM('email','sms','google') COLLATE utf8mb4_0900_ai_ci,
+    `user_two_factor_key` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_two_factor_gsecret` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_activated` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_reseted` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_reset_key` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_subscribed` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_package` INTEGER(10) UNSIGNED,
+    `user_subscription_date` DATETIME,
+    `user_boosted_posts` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_boosted_pages` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_started` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_verified` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_banned` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_live_requests_counter` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_live_requests_lastid` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_live_messages_counter` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_live_messages_lastid` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_live_notifications_counter` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_live_notifications_lastid` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_latitude` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_longitude` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_location_updated` DATETIME,
+    `user_firstname` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_lastname` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_gender` ENUM('male','female','other') COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_picture` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_picture_id` INTEGER(10) UNSIGNED,
+    `user_cover` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_cover_id` INTEGER(10) UNSIGNED,
+    `user_cover_position` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_album_pictures` INTEGER(10) UNSIGNED,
+    `user_album_covers` INTEGER(10) UNSIGNED,
+    `user_album_timeline` INTEGER(10) UNSIGNED,
+    `user_pinned_post` INTEGER(10) UNSIGNED,
+    `user_registered` DATETIME,
+    `user_last_seen` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `user_first_failed_login` DATETIME,
+    `user_failed_login_ip` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_failed_login_count` INTEGER(10) UNSIGNED NOT NULL DEFAULT 0,
+    `user_country` INTEGER(10) UNSIGNED,
+    `user_birthdate` DATE,
+    `user_relationship` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_biography` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_website` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_work_title` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_work_place` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_work_url` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_current_city` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_hometown` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_edu_major` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_edu_school` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_edu_class` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_social_facebook` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_social_twitter` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_social_youtube` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_social_instagram` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_social_linkedin` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_social_vkontakte` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_profile_background` VARCHAR(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_chat_enabled` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `user_privacy_newsletter` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `user_privacy_poke` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_gifts` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_wall` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'friends',
+    `user_privacy_birthdate` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_relationship` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_basic` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_work` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_location` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_education` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_other` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_friends` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_photos` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_pages` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_groups` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `user_privacy_events` ENUM('me','friends','public') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'public',
+    `email_post_likes` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `email_post_comments` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `email_post_shares` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `email_wall_posts` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `email_mentions` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `email_profile_visits` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `email_friend_requests` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `facebook_connected` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `facebook_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `google_connected` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `google_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `twitter_connected` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `twitter_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `instagram_connected` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `instagram_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `linkedin_connected` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `linkedin_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `vkontakte_connected` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `vkontakte_id` VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+    `user_referrer_id` INTEGER(10),
+    `user_affiliate_balance` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_wallet_balance` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+    `user_points` INTEGER(10) NOT NULL DEFAULT 0,
+    `chat_sound` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    `notifications_sound` ENUM('0','1') COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1',
+    PRIMARY KEY (`user_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `username` ON `users` (`user_name`);
+
+CREATE UNIQUE INDEX `user_email` ON `users` (`user_email`);
+
+CREATE UNIQUE INDEX `facebook_id` ON `users` (`facebook_id`);
+
+CREATE UNIQUE INDEX `twitter_id` ON `users` (`twitter_id`);
+
+CREATE UNIQUE INDEX `linkedin_id` ON `users` (`linkedin_id`);
+
+CREATE UNIQUE INDEX `vkontakte_id` ON `users` (`vkontakte_id`);
+
+CREATE UNIQUE INDEX `instagram_id` ON `users` (`instagram_id`);
+
+CREATE UNIQUE INDEX `user_phone` ON `users` (`user_phone`);
+
+CREATE UNIQUE INDEX `google_id` ON `users` (`google_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "users_blocks"                                               #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users_blocks` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `blocked_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_id_blocked_id` ON `users_blocks` (`user_id`,`blocked_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "users_gifts"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users_gifts` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `from_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `to_user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `gift_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+# ---------------------------------------------------------------------- #
+# Add table "users_invitations"                                          #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users_invitations` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `email` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `invitation_date` DATETIME NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_id_email` ON `users_invitations` (`user_id`,`email`);
+
+# ---------------------------------------------------------------------- #
+# Add table "users_pokes"                                                #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users_pokes` (
+    `id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `poked_id` INTEGER(10) UNSIGNED NOT NULL,
+    PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `user_id_blocked_id` ON `users_pokes` (`user_id`,`poked_id`);
+
+# ---------------------------------------------------------------------- #
+# Add table "users_searches"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users_searches` (
+    `log_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_id` INTEGER(10) UNSIGNED NOT NULL,
+    `node_type` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `time` DATETIME,
+    PRIMARY KEY (`log_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `node_id_node_type` ON `users_searches` (`node_id`,`node_type`);
+
+# ---------------------------------------------------------------------- #
+# Add table "users_sessions"                                             #
+# ---------------------------------------------------------------------- #
+
+CREATE TABLE `users_sessions` (
+    `session_id` INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `session_token` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `session_date` DATETIME NOT NULL,
+    `user_id` INTEGER(10) UNSIGNED NOT NULL,
+    `user_browser` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_os` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    `user_ip` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (`session_id`)
+)
+ENGINE = MYISAM;
+
+CREATE UNIQUE INDEX `session_token` ON `users_sessions` (`session_token`);
+
+CREATE INDEX `user_ip` ON `users_sessions` (`user_ip`);
+
+# ---------------------------------------------------------------------- #
+# Add foreign key constraints                                            #
+# ---------------------------------------------------------------------- #
+
+ALTER TABLE `ads_campaigns` ADD CONSTRAINT `users_ads_campaigns` 
+    FOREIGN KEY (`campaign_user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `ads_users_wallet_transactions` ADD CONSTRAINT `blacklist_ads_users_wallet_transactions` 
+    FOREIGN KEY (`node_id`) REFERENCES `blacklist` (`node_id`);
+
+ALTER TABLE `ads_users_wallet_transactions` ADD CONSTRAINT `invitation_codes_ads_users_wallet_transactions` 
+    FOREIGN KEY (`node_id`) REFERENCES `invitation_codes` (`code_id`);
+
+ALTER TABLE `ads_users_wallet_transactions` ADD CONSTRAINT `users_ads_users_wallet_transactions` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `affiliates_payments` ADD CONSTRAINT `users_affiliates_payments` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `announcements_users` ADD CONSTRAINT `announcements_announcements_users` 
+    FOREIGN KEY (`announcement_id`) REFERENCES `announcements` (`announcement_id`);
+
+ALTER TABLE `announcements_users` ADD CONSTRAINT `users_announcements_users` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `bank_transfers` ADD CONSTRAINT `packages_bank_transfers` 
+    FOREIGN KEY (`package_id`) REFERENCES `packages` (`package_id`);
+
+ALTER TABLE `bank_transfers` ADD CONSTRAINT `users_bank_transfers` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `coinpayments_transactions` ADD CONSTRAINT `users_coinpayments_transactions` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `conversations` ADD CONSTRAINT `conversations_messages_conversations` 
+    FOREIGN KEY (`last_message_id`) REFERENCES `conversations_messages` (`message_id`);
+
+ALTER TABLE `conversations_calls_audio` ADD CONSTRAINT `users_conversations_calls_audio` 
+    FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `conversations_calls_video` ADD CONSTRAINT `users_conversations_calls_video` 
+    FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `conversations_messages` ADD CONSTRAINT `conversations_conversations_messages` 
+    FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`conversation_id`);
+
+ALTER TABLE `conversations_messages` ADD CONSTRAINT `users_conversations_messages` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `conversations_users` ADD CONSTRAINT `conversations_conversations_users` 
+    FOREIGN KEY (`conversation_id`) REFERENCES `conversations` (`conversation_id`);
+
+ALTER TABLE `conversations_users` ADD CONSTRAINT `users_conversations_users` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `custom_fields_values` ADD CONSTRAINT `blacklist_custom_fields_values` 
+    FOREIGN KEY (`node_id`) REFERENCES `blacklist` (`node_id`);
+
+ALTER TABLE `custom_fields_values` ADD CONSTRAINT `custom_fields_custom_fields_values` 
+    FOREIGN KEY (`field_id`) REFERENCES `custom_fields` (`field_id`);
+
+ALTER TABLE `custom_fields_values` ADD CONSTRAINT `invitation_codes_custom_fields_values` 
+    FOREIGN KEY (`node_id`) REFERENCES `invitation_codes` (`code_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `blogs_categories_developers_apps` 
+    FOREIGN KEY (`app_category_id`) REFERENCES `blogs_categories` (`category_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `developers_apps_categories_developers_apps` 
+    FOREIGN KEY (`app_category_id`) REFERENCES `developers_apps_categories` (`category_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `events_categories_developers_apps` 
+    FOREIGN KEY (`app_category_id`) REFERENCES `events_categories` (`category_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `groups_categories_developers_apps` 
+    FOREIGN KEY (`app_category_id`) REFERENCES `groups_categories` (`category_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `market_categories_developers_apps` 
+    FOREIGN KEY (`app_category_id`) REFERENCES `market_categories` (`category_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `pages_categories_developers_apps` 
+    FOREIGN KEY (`app_category_id`) REFERENCES `pages_categories` (`category_id`);
+
+ALTER TABLE `developers_apps` ADD CONSTRAINT `users_developers_apps` 
+    FOREIGN KEY (`app_user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `developers_apps_users` ADD CONSTRAINT `developers_apps_developers_apps_users` 
+    FOREIGN KEY (`app_id`) REFERENCES `developers_apps` (`app_id`);
+
+ALTER TABLE `developers_apps_users` ADD CONSTRAINT `users_developers_apps_users` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `events_members` ADD CONSTRAINT `events_events_members` 
+    FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`);
+
+ALTER TABLE `events_members` ADD CONSTRAINT `users_events_members` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `followings` ADD CONSTRAINT `users_followings` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `forums_replies` ADD CONSTRAINT `forums_threads_forums_replies` 
+    FOREIGN KEY (`thread_id`) REFERENCES `forums_threads` (`thread_id`);
+
+ALTER TABLE `forums_replies` ADD CONSTRAINT `users_forums_replies` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `forums_threads` ADD CONSTRAINT `forums_forums_threads` 
+    FOREIGN KEY (`forum_id`) REFERENCES `forums` (`forum_id`);
+
+ALTER TABLE `forums_threads` ADD CONSTRAINT `users_forums_threads` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `games_players` ADD CONSTRAINT `games_games_players` 
+    FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`);
+
+ALTER TABLE `games_players` ADD CONSTRAINT `users_games_players` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `groups_admins` ADD CONSTRAINT `users_groups_admins` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `groups_members` ADD CONSTRAINT `users_groups_members` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `hashtags_posts` ADD CONSTRAINT `hashtags_hashtags_posts` 
+    FOREIGN KEY (`hashtag_id`) REFERENCES `hashtags` (`hashtag_id`);
+
+ALTER TABLE `hashtags_posts` ADD CONSTRAINT `posts_hashtags_posts` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `notifications` ADD CONSTRAINT `users_notifications` 
+    FOREIGN KEY (`to_user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `pages_admins` ADD CONSTRAINT `pages_pages_admins` 
+    FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`);
+
+ALTER TABLE `pages_admins` ADD CONSTRAINT `static_pages_pages_admins` 
+    FOREIGN KEY (`page_id`) REFERENCES `static_pages` (`page_id`);
+
+ALTER TABLE `pages_admins` ADD CONSTRAINT `users_pages_admins` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `pages_invites` ADD CONSTRAINT `pages_pages_invites` 
+    FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`);
+
+ALTER TABLE `pages_invites` ADD CONSTRAINT `static_pages_pages_invites` 
+    FOREIGN KEY (`page_id`) REFERENCES `static_pages` (`page_id`);
+
+ALTER TABLE `pages_invites` ADD CONSTRAINT `users_pages_invites` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `pages_likes` ADD CONSTRAINT `pages_pages_likes` 
+    FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`);
+
+ALTER TABLE `pages_likes` ADD CONSTRAINT `static_pages_pages_likes` 
+    FOREIGN KEY (`page_id`) REFERENCES `static_pages` (`page_id`);
+
+ALTER TABLE `pages_likes` ADD CONSTRAINT `users_pages_likes` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `points_payments` ADD CONSTRAINT `users_points_payments` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts` ADD CONSTRAINT `events_posts` 
+    FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`);
+
+ALTER TABLE `posts` ADD CONSTRAINT `users_posts` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `blogs_categories_posts_articles` 
+    FOREIGN KEY (`category_id`) REFERENCES `blogs_categories` (`category_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `developers_apps_categories_posts_articles` 
+    FOREIGN KEY (`category_id`) REFERENCES `developers_apps_categories` (`category_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `events_categories_posts_articles` 
+    FOREIGN KEY (`category_id`) REFERENCES `events_categories` (`category_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `groups_categories_posts_articles` 
+    FOREIGN KEY (`category_id`) REFERENCES `groups_categories` (`category_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `market_categories_posts_articles` 
+    FOREIGN KEY (`category_id`) REFERENCES `market_categories` (`category_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `pages_categories_posts_articles` 
+    FOREIGN KEY (`category_id`) REFERENCES `pages_categories` (`category_id`);
+
+ALTER TABLE `posts_articles` ADD CONSTRAINT `posts_posts_articles` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_audios` ADD CONSTRAINT `posts_posts_audios` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_comments` ADD CONSTRAINT `blacklist_posts_comments` 
+    FOREIGN KEY (`node_id`) REFERENCES `blacklist` (`node_id`);
+
+ALTER TABLE `posts_comments` ADD CONSTRAINT `invitation_codes_posts_comments` 
+    FOREIGN KEY (`node_id`) REFERENCES `invitation_codes` (`code_id`);
+
+ALTER TABLE `posts_comments` ADD CONSTRAINT `users_posts_comments` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_comments_reactions` ADD CONSTRAINT `posts_comments_posts_comments_reactions` 
+    FOREIGN KEY (`comment_id`) REFERENCES `posts_comments` (`comment_id`);
+
+ALTER TABLE `posts_comments_reactions` ADD CONSTRAINT `users_posts_comments_reactions` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_files` ADD CONSTRAINT `posts_posts_files` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_hidden` ADD CONSTRAINT `posts_posts_hidden` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_hidden` ADD CONSTRAINT `users_posts_hidden` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_links` ADD CONSTRAINT `posts_posts_links` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_media` ADD CONSTRAINT `posts_posts_media` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_photos` ADD CONSTRAINT `posts_posts_photos` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_photos` ADD CONSTRAINT `posts_photos_albums_posts_photos` 
+    FOREIGN KEY (`album_id`) REFERENCES `posts_photos_albums` (`album_id`);
+
+ALTER TABLE `posts_photos_albums` ADD CONSTRAINT `events_posts_photos_albums` 
+    FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`);
+
+ALTER TABLE `posts_photos_albums` ADD CONSTRAINT `users_posts_photos_albums` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_photos_reactions` ADD CONSTRAINT `posts_photos_posts_photos_reactions` 
+    FOREIGN KEY (`photo_id`) REFERENCES `posts_photos` (`photo_id`);
+
+ALTER TABLE `posts_photos_reactions` ADD CONSTRAINT `users_posts_photos_reactions` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_polls` ADD CONSTRAINT `posts_posts_polls` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_polls_options` ADD CONSTRAINT `posts_polls_posts_polls_options` 
+    FOREIGN KEY (`poll_id`) REFERENCES `posts_polls` (`poll_id`);
+
+ALTER TABLE `posts_polls_options_users` ADD CONSTRAINT `posts_polls_posts_polls_options_users` 
+    FOREIGN KEY (`poll_id`) REFERENCES `posts_polls` (`poll_id`);
+
+ALTER TABLE `posts_polls_options_users` ADD CONSTRAINT `posts_polls_options_posts_polls_options_users` 
+    FOREIGN KEY (`option_id`) REFERENCES `posts_polls_options` (`option_id`);
+
+ALTER TABLE `posts_polls_options_users` ADD CONSTRAINT `system_options_posts_polls_options_users` 
+    FOREIGN KEY (`option_id`) REFERENCES `system_options` (`option_id`);
+
+ALTER TABLE `posts_polls_options_users` ADD CONSTRAINT `users_posts_polls_options_users` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `blogs_categories_posts_products` 
+    FOREIGN KEY (`category_id`) REFERENCES `blogs_categories` (`category_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `developers_apps_categories_posts_products` 
+    FOREIGN KEY (`category_id`) REFERENCES `developers_apps_categories` (`category_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `events_categories_posts_products` 
+    FOREIGN KEY (`category_id`) REFERENCES `events_categories` (`category_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `groups_categories_posts_products` 
+    FOREIGN KEY (`category_id`) REFERENCES `groups_categories` (`category_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `market_categories_posts_products` 
+    FOREIGN KEY (`category_id`) REFERENCES `market_categories` (`category_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `pages_categories_posts_products` 
+    FOREIGN KEY (`category_id`) REFERENCES `pages_categories` (`category_id`);
+
+ALTER TABLE `posts_products` ADD CONSTRAINT `posts_posts_products` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_reactions` ADD CONSTRAINT `posts_posts_reactions` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_reactions` ADD CONSTRAINT `users_posts_reactions` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_saved` ADD CONSTRAINT `posts_posts_saved` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `posts_saved` ADD CONSTRAINT `users_posts_saved` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `posts_videos` ADD CONSTRAINT `posts_posts_videos` 
+    FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`);
+
+ALTER TABLE `reports` ADD CONSTRAINT `blacklist_reports` 
+    FOREIGN KEY (`node_id`) REFERENCES `blacklist` (`node_id`);
+
+ALTER TABLE `reports` ADD CONSTRAINT `invitation_codes_reports` 
+    FOREIGN KEY (`node_id`) REFERENCES `invitation_codes` (`code_id`);
+
+ALTER TABLE `reports` ADD CONSTRAINT `users_reports` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `stories` ADD CONSTRAINT `users_stories` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `stories_media` ADD CONSTRAINT `stories_stories_media` 
+    FOREIGN KEY (`story_id`) REFERENCES `stories` (`story_id`);
+
+ALTER TABLE `users` ADD CONSTRAINT `notifications_users` 
+    FOREIGN KEY (`user_live_notifications_counter`) REFERENCES `notifications` (`notification_id`);
+
+ALTER TABLE `users_blocks` ADD CONSTRAINT `users_users_blocks` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `users_gifts` ADD CONSTRAINT `gifts_users_gifts` 
+    FOREIGN KEY (`gift_id`) REFERENCES `gifts` (`gift_id`);
+
+ALTER TABLE `users_gifts` ADD CONSTRAINT `users_users_gifts` 
+    FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `users_invitations` ADD CONSTRAINT `users_users_invitations` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `users_pokes` ADD CONSTRAINT `users_users_pokes` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `users_searches` ADD CONSTRAINT `blacklist_users_searches` 
+    FOREIGN KEY (`node_id`) REFERENCES `blacklist` (`node_id`);
+
+ALTER TABLE `users_searches` ADD CONSTRAINT `users_users_searches` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `users_sessions` ADD CONSTRAINT `users_users_sessions` 
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `verification_requests` ADD CONSTRAINT `blacklist_verification_requests` 
+    FOREIGN KEY (`node_id`) REFERENCES `blacklist` (`node_id`);
