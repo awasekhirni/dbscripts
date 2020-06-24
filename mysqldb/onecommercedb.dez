@@ -4,15 +4,15 @@
 <VERSION>
 <PROJECTSETTINGS>
 <COMMONSETTINGS>
-<PROJECTFILENAME>C:\Users\Awase Khirni Syed\Documents\mysqldumps\onecommercedb.dez</PROJECTFILENAME>
-<MODIFIED>2020-06-18</MODIFIED>
-<CREATED>2020-06-18</CREATED>
+<PROJECTFILENAME>C:\Users\Awase Khirni Syed\Documents\mysqldumps\New folder\onecommercedb.dez</PROJECTFILENAME>
+<MODIFIED>2020-06-24</MODIFIED>
+<CREATED>2020-06-24</CREATED>
 <CREATED2></CREATED2>
 <PROJECTNAME></PROJECTNAME>
 <PROJECTDESCRIPTION></PROJECTDESCRIPTION>
 <AUTHOR></AUTHOR>
 <COPYRIGHT></COPYRIGHT>
-<LASTGENERATEDFILES>C:\Users\Awase Khirni Syed\Documents\mysqldumps\createOneCommerceDB;C:\Users\Awase Khirni Syed\Documents\mysqldumps\dropOneCommerceDB.sql;C:\Users\Awase Khirni Syed\Documents\CreateDBLog_202006184.txt</LASTGENERATEDFILES>
+<LASTGENERATEDFILES>C:\Users\Awase Khirni Syed\Documents\mysqldumps\New folder\create_onecommercedb.sql;C:\Users\Awase Khirni Syed\Documents\mysqldumps\New folder\drop_onecommercedb.sql;C:\Users\Awase Khirni Syed\Documents\CreateDBLog_2020062423.txt</LASTGENERATEDFILES>
 <PRINTORIENTATION>PORTRAIT</PRINTORIENTATION>
 <PRINTPAGETYPE>A4</PRINTPAGETYPE>
 <DEFTABLEOPTIONS></DEFTABLEOPTIONS>
@@ -50,8 +50,8 @@
 <ImpDB_Options>
 </ImpDB_Options>
 <GenDB_DBParams>
-<SQLCREATEFILE>C:\Users\Awase Khirni Syed\Documents\mysqldumps\createOneCommerceDB</SQLCREATEFILE>
-<SQLDROPFILE>C:\Users\Awase Khirni Syed\Documents\mysqldumps\dropOneCommerceDB.sql</SQLDROPFILE>
+<SQLCREATEFILE>C:\Users\Awase Khirni Syed\Documents\mysqldumps\New folder\create_onecommercedb.sql</SQLCREATEFILE>
+<SQLDROPFILE>C:\Users\Awase Khirni Syed\Documents\mysqldumps\New folder\drop_onecommercedb.sql</SQLDROPFILE>
 <DBID>mysql5</DBID>
 </GenDB_DBParams>
 <GenDB_Options>
@@ -13646,8 +13646,8 @@
 </VERSION><VERSION>
 <VERSIONINFO>
 <VERSIONNUMBER>1</VERSIONNUMBER>
-<VERSIONLABEL>Archived imported model 2020-06-18</VERSIONLABEL>
-<VERSIONDATE>2020-06-18 14:33</VERSIONDATE>
+<VERSIONLABEL>Archived imported model 2020-06-24</VERSIONLABEL>
+<VERSIONDATE>2020-06-24 11:13</VERSIONDATE>
 <VERSIONCOMMENTS>This version has been archived automatically after importing from the database.</VERSIONCOMMENTS>
 <VERSIONTYPE></VERSIONTYPE>
 <VERSIONTYPEDESC>Diagrams and data dictionary</VERSIONTYPEDESC>
@@ -13655,7 +13655,7 @@
 </VERSIONINFO>
 <PROJECTSETTINGS>
 <COMMONSETTINGS>
-<PROJECTFILENAME>C:\Users\Awase Khirni Syed\Documents\Project3.dez</PROJECTFILENAME>
+<PROJECTFILENAME>C:\Users\Awase Khirni Syed\Documents\Project4.dez</PROJECTFILENAME>
 <MODIFIED></MODIFIED>
 <CREATED></CREATED>
 <CREATED2></CREATED2>
